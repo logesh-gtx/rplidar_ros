@@ -229,6 +229,7 @@ class RPlidarNode : public rclcpp::Node
                   float max_distance,
                   std::string frame_id)
     {
+        rclcpp::Rate loop_rate(scan_frequency);
         static int scan_count = 0;
         auto scan_msg = std::make_shared<sensor_msgs::msg::LaserScan>();
 
@@ -277,6 +278,7 @@ class RPlidarNode : public rclcpp::Node
         }
 
         pub->publish(*scan_msg);
+        loop_rate.sleep();
     }
 
     bool set_scan_mode() {
